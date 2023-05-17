@@ -23,10 +23,18 @@ type Query {
 
 type Mutation {
   addRecipe(newRecipeData: NewRecipeInput!): Recipe!
+  updateRecipe(updateRecipeData: UpdateRecipeInput!): Recipe!
   removeRecipe(id: String!): Boolean!
 }
 
 input NewRecipeInput {
+  title: String!
+  description: String
+  ingredients: [String!]!
+}
+
+input UpdateRecipeInput {
+  id: ID!
   title: String!
   description: String
   ingredients: [String!]!

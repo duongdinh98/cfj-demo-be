@@ -5,8 +5,8 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
-
-  await app.listen(3000);
+  app.enableCors();
+  await app.listen(5360);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();

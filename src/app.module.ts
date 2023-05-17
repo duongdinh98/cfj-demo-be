@@ -21,6 +21,7 @@ import { RecipesModule } from './recipes/recipes.module';
           }),
         ],
       },
+      path: '/v1/api',
     }),
   ],
 })

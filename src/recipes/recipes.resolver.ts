@@ -5,6 +5,7 @@ import { NewRecipeInput } from './dto/new-recipe.input';
 import { RecipesArgs } from './dto/recipes.args';
 import { Recipe } from './models/recipe.model';
 import { RecipesService } from './recipes.service';
+import { UpdateRecipeInput } from './dto/update-recipe.input';
 
 const pubSub = new PubSub();
 
@@ -12,7 +13,7 @@ const pubSub = new PubSub();
 export class RecipesResolver {
   constructor(private readonly recipesService: RecipesService) {}
 
-  @Query(returns => Recipe)
+  @Query(() => Recipe)
   async recipe(@Args('id') id: string): Promise<Recipe> {
     const recipe = await this.recipesService.findOneById(id);
     if (!recipe) {
@@ -21,12 +22,12 @@ export class RecipesResolver {
     return recipe;
   }
 
-  @Query(returns => [Recipe])
+  @Query(() => [Recipe])
   recipes(@Args() recipesArgs: RecipesArgs): Promise<Recipe[]> {
     return this.recipesService.findAll(recipesArgs);
   }
 
-  @Mutation(returns => Recipe)
+  @Mutation(() => Recipe)
   async addRecipe(
     @Args('newRecipeData') newRecipeData: NewRecipeInput,
   ): Promise<Recipe> {
@@ -35,12 +36,19 @@ export class RecipesResolver {
     return recipe;
   }
 
-  @Mutation(returns => Boolean)
+  @Mutation(() => Recipe)
+  async updateRecipe(
+    @Args('updateRecipeData') updateRecipeData: UpdateRecipeInput,
+  ): Promise<Recipe> {
+    return this.recipesService.update(updateRecipeData);
+  }
+
+  @Mutation(() => Boolean)
   async removeRecipe(@Args('id') id: string) {
     return this.recipesService.remove(id);
   }
 
-  @Subscription(returns => Recipe)
+  @Subscription(() => Recipe)
   recipeAdded() {
     return pubSub.asyncIterator('recipeAdded');
   }
